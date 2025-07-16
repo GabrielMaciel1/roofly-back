@@ -1,8 +1,8 @@
 version: '3.8'
 services:
-  postgres-m2:
+  postgres-roofly:
     image: postgres:latest
-    container_name: postgres-m2-container
+    container_name: postgres-roofly-container
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -10,18 +10,18 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - m2_postgres_data:/var/lib/postgresql/data
+      - roofly_postgres_data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin-m2-container
+    container_name: pgadmin-roofly-container
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
     ports:
       - "5050:80"
     depends_on:
-      - postgres-m2
+      - postgres-roofly
 
 volumes:
-  m2_postgres_data:
+  roofly_postgres_data:

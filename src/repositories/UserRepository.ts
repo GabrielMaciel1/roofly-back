@@ -13,15 +13,7 @@ export class UserRepository {
         return this.userRepository.findOneBy({ email });
     }
 
-    async findByFacebookId(facebookId: string): Promise<User | null> {
-        return this.userRepository.findOneBy({ facebookId });
-    }
-
-    async findByGoogleId(googleId: string): Promise<User | null> {
-        return this.userRepository.findOneBy({ googleId });
-    }
-
-    async findById(id: number): Promise<User | null> {
+    async findById(id: string): Promise<User | null> {
         return this.userRepository.findOneBy({ id });
     }
 

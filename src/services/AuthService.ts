@@ -16,7 +16,7 @@ export class AuthService {
             hashedPassword = await bcrypt.hash(password, 10);
         }
 
-        const newUser = this.userRepository.create({ email, password: hashedPassword, facebookId, googleId });
+        const newUser = this.userRepository.create({ email, passwordHash: hashedPassword });
         await this.userRepository.save(newUser);
 
         return newUser;
@@ -29,7 +29,7 @@ export class AuthService {
             throw new Error('Invalid credentials');
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
         if (!isPasswordValid) {
             throw new Error('Invalid credentials');
         }
@@ -39,26 +39,5 @@ export class AuthService {
         return { token, user };
     }
 
-    static async findOrCreateSocialUser(profileId: string, email: string, provider: 'facebook' | 'google') {
-        let user;
-
-        if (provider === 'facebook') {
-            user = await this.userRepository.findByFacebookId(profileId);
-        } else if (provider === 'google') {
-            user = await this.userRepository.findByGoogleId(profileId);
-        }
-
-        if (user) {
-            return user;
-        }
-
-        const newUser = this.userRepository.create({
-            email,
-            password: '', // Senha vazia ou gerada para logins sociais
-            facebookId: provider === 'facebook' ? profileId : undefined,
-            googleId: provider === 'google' ? profileId : undefined,
-        });
-        await this.userRepository.save(newUser);
-        return newUser;
-    }
+    
 }

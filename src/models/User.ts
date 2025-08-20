@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column, OneToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryColumn, Column, OneToOne, OneToMany, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { Profile } from './Profile';
 import { Session } from './Session';
 import { Otp } from './Otp';
@@ -7,7 +7,7 @@ import { Favorite } from './Favorite';
 
 @Entity({ name: 'usuarios' })
 export class User {
-    @PrimaryColumn({ type: 'uuid' })
+    @PrimaryGeneratedColumn('uuid')
     id!: string;
 
     @Column({ type: 'varchar', length: 150, unique: true })

@@ -34,6 +34,3 @@ tmp/
 .Trashes
 Thumbs.db
 
-# Other
-image.png
-jwt_secret.txt

@@ -10,17 +10,14 @@ export class Profile {
     @JoinColumn({ name: 'user_id' })
     user!: User;
 
-    @Column({ type: 'varchar', length: 100, name: 'full_name' })
-    fullName!: string;
+    @Column({ type: 'varchar', length: 100, name: 'full_name', nullable: true })
+    fullName?: string;
 
-    @Column({ type: 'varchar', length: 50, unique: true })
-    username!: string;
+    @Column({ type: 'varchar', length: 20, nullable: true })
+    phone?: string;
 
     @Column({ type: 'text', nullable: true, name: 'avatar_url' })
     avatarUrl?: string;
-
-    @Column({ type: 'text', nullable: true })
-    bio?: string;
 
     @CreateDateColumn({ type: 'timestamp', default: () => 'NOW()', name: 'created_at' })
     createdAt!: Date;

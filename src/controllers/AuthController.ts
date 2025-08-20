@@ -3,14 +3,14 @@ import { AuthService } from '../services/AuthService';
 
 export class AuthController {
     static async register(req: Request, res: Response) {
-        const { email, password } = req.body;
-
+        const { email, password, fullName, phone, avatarUrl } = req.body;
+        
         if (!email || !password) {
             return res.status(400).json({ message: 'Email and password are required' });
         }
 
         try {
-            await AuthService.register(email, password);
+            await AuthService.register(email, password, fullName, phone, avatarUrl);
             res.status(201).json({ message: 'User registered successfully' });
         } catch (error: any) {
             if (error.message === 'User with this email already exists') {

@@ -1,16 +1,17 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany, JoinColumn, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './User';
 import { AdvertisementPhoto } from './AdvertisementPhoto';
 import { Favorite } from './Favorite';
 
 export enum TransactionType {
-    SALE = 'sale',
-    RENT = 'rent',
+    SALE = 'Venda',
+    RENT = 'Aluguel',
+    SEASON = 'Temporada',
 }
 
 @Entity({ name: 'anuncios' })
 export class Advertisement {
-    @PrimaryColumn({ type: 'uuid' })
+    @PrimaryGeneratedColumn('uuid')
     id!: string;
 
     @Column({ type: 'uuid', name: 'user_id' })
@@ -38,6 +39,9 @@ export class Advertisement {
     @Column({ type: 'varchar', length: 20 })
     cep!: string;
 
+    @Column({ type: 'varchar', length: 255 })
+    address!: string;
+
     @Column({ type: 'int', nullable: true })
     bathrooms?: number;
 
@@ -53,16 +57,40 @@ export class Advertisement {
     @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
     iptu?: number;
 
-    @Column({ type: 'jsonb', name: 'property_details', nullable: true })
-    propertyDetails?: object;
+    @Column({ type: 'boolean', default: false })
+    furnished!: boolean;
 
-    @Column({ type: 'jsonb', name: 'condominium_details', nullable: true })
-    condominiumDetails?: object;
+    @Column({ type: 'boolean', default: false, name: 'pets_allowed' })
+    petsAllowed!: boolean;
+
+    @Column({ type: 'boolean', default: false, name: 'financing_accepted' })
+    financingAccepted!: boolean;
+
+    @Column({ type: 'varchar', length: 50, nullable: true })
+    floor?: string;
+
+    @Column({ type: 'boolean', default: false })
+    elevator!: boolean;
+
+    @Column({ type: 'varchar', length: 50, nullable: true })
+    position?: string;
+
+    @Column({ type: 'boolean', default: false, name: 'show_phone_number' })
+    showPhoneNumber!: boolean;
+
+    @Column({ type: 'int', default: 0 })
+    views!: number;
+
+    @Column({ type: 'decimal', precision: 10, scale: 8, nullable: true })
+    latitude?: number;
+
+    @Column({ type: 'decimal', precision: 11, scale: 8, nullable: true })
+    longitude?: number;
 
     @Column({ type: 'numeric', precision: 12, scale: 2 })
     price!: number;
 
-    @OneToMany(() => AdvertisementPhoto, photo => photo.advertisement)
+    @OneToMany(() => AdvertisementPhoto, photo => photo.advertisement, { cascade: true })
     photos!: AdvertisementPhoto[];
 
     @OneToMany(() => Favorite, favorite => favorite.advertisement)

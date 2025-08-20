@@ -1,12 +1,15 @@
 import { User } from '../models/User';
+import { Profile } from '../models/Profile';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { UserRepository } from '../repositories/UserRepository';
+import { ProfileRepository } from '../repositories/ProfileRepository';
 
 export class AuthService {
     private static userRepository: UserRepository = new UserRepository();
+    private static profileRepository: ProfileRepository = new ProfileRepository();
 
-    static async register(email: string, password?: string, facebookId?: string, googleId?: string) {
+    static async register(email: string, password?: string, fullName?: string, phone?: string, avatarUrl?: string, facebookId?: string, googleId?: string) {
         if (await this.userRepository.findByEmail(email)) {
             throw new Error('User with this email already exists');
         }
@@ -18,6 +21,14 @@ export class AuthService {
 
         const newUser = this.userRepository.create({ email, passwordHash: hashedPassword });
         await this.userRepository.save(newUser);
+
+        const newProfile = this.profileRepository.create({
+            userId: newUser.id,
+            fullName,
+            phone,
+            avatarUrl,
+        });
+        await this.profileRepository.save(newProfile);
 
         return newUser;
     }

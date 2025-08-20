@@ -1,9 +1,9 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { Advertisement } from './Advertisement';
 
 @Entity({ name: 'fotos_anuncio' })
 export class AdvertisementPhoto {
-    @PrimaryColumn({ type: 'uuid' })
+    @PrimaryGeneratedColumn('uuid')
     id!: string;
 
     @Column({ type: 'uuid', name: 'anuncio_id' })
@@ -14,7 +14,7 @@ export class AdvertisementPhoto {
     advertisement!: Advertisement;
 
     @Column({ type: 'text' })
-    url!: string;
+    data!: string;
 
     @Column({ type: 'int', name: 'sort_order', default: 0 })
     sortOrder!: number;

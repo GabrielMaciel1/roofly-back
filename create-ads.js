@@ -11,7 +11,6 @@ const login = async (email, password) => {
     const response = await axios.post(`${API_URL}/auth/login`, { email, password });
     return response.data.token;
   } catch (error) {
-    console.error('Error logging in:', error.response.data.message);
     throw error;
   }
 };
@@ -25,7 +24,6 @@ const createAdvertisement = async (token, advertisementData) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error creating advertisement:', error.response.data.message);
     throw error;
   }
 };
@@ -127,7 +125,6 @@ const main = async () => {
       images,
     };
 
-    console.log(`Creating advertisement for ${advertisementData.title}`);
     await createAdvertisement(token, advertisementData);
   }
 };

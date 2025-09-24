@@ -23,7 +23,6 @@ export class UserService {
         // For simplicity, let's assume we just return true if user exists
         const user = await this.userRepository.findById(id);
         if (user) {
-            // await this.userRepository.remove(user); // Uncomment if you want to implement actual delete
             return true;
         }
         return false;
